@@ -1,0 +1,26 @@
+name: Shift-Right API Performance Monitor
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Chạy tự động mỗi giờ[cite: 5]
+  workflow_dispatch:    # Cho phép bấm chạy thủ công trên GitHub[cite: 5]
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Monitor Collection
+        run: |
+          newman run monitor_collection.json --reporters cli
